@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:rm_pokedex/features/character_detail/widgets/character_detail_widget.dart';
 import '../view_model/character_detail_view_model.dart';
 import '../../../data/repositories/character_repository.dart';
 import '../../../core/services/api_service.dart';
@@ -24,57 +25,7 @@ class CharacterDetailPage extends StatelessWidget {
               return const Center(child: CircularProgressIndicator());
             }
 
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Image.network(
-                  character.image,
-                  height: 400,
-                  width: 400,
-                ),
-                const SizedBox(height: 16),
-                Text(
-                  character.name,
-                  style: const TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Text(
-                  'Status: ${character.status}',
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: character.status.toLowerCase() == 'alive'
-                        ? Colors.lightGreen
-                        : character.status.toLowerCase() == 'dead'
-                            ? Colors.red
-                            : Colors.black,
-                  ),
-                ),
-                Text(
-                  'Species: ${character.species}',
-                  style: const TextStyle(
-                    fontSize: 16,
-                    color: Colors.black,
-                  ),
-                ),
-                Text(
-                  'Gender: ${character.gender}',
-                  style: const TextStyle(
-                    fontSize: 16,
-                    color: Colors.black,
-                  ),
-                ),
-                Text(
-                  'Origin: ${character.origin['name'] ?? 'Unknown'}',
-                  style: const TextStyle(
-                    fontSize: 16,
-                    color: Colors.black,
-                  ),
-                ),
-              ],
-            );
+            return CharacterDetailWidget(character: character);
           },
         ),
       ),
