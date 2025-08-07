@@ -11,25 +11,30 @@ class CharacterListViewModel extends ChangeNotifier {
   List<Character> get characters => _characters;
 
   int _currentPage = 1;
-  final int _totalPages = 42;
+  int _totalPages = 42;
+
   bool _isLoading = false;
   bool get isLoading => _isLoading;
 
+  String? _errorMessage;
+  String? get errorMessage => _errorMessage;
+  bool get hasError => _errorMessage != null;
+
+  bool get hasMore => _currentPage <= _totalPages;
+
   Future<void> fetchCharacters() async {
-    if (_isLoading) return;
+    if (_isLoading || !hasMore) return;
+
     _isLoading = true;
+    _errorMessage = null;
     notifyListeners();
 
     try {
-      if (_currentPage > _totalPages) return;
-
       final newCharacters = await repository.fetchCharacters(_currentPage);
       _characters.addAll(newCharacters);
       _currentPage++;
     } catch (e) {
-      _isLoading = false;
-      notifyListeners();
-      throw Exception('Error: $e');
+      _errorMessage = 'Error: $e';
     }
 
     _isLoading = false;

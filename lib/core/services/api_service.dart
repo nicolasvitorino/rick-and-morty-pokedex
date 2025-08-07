@@ -13,14 +13,14 @@ class ApiService {
       if (response.statusCode == 200) {
         return json.decode(response.body);
       } else if (response.statusCode == 404) {
-        throw Exception('Recurso não encontrado');
+        throw Exception('Not found');
       } else if (response.statusCode == 500) {
-        throw Exception('Erro interno do servidor');
+        throw Exception('Internal server error');
       } else {
-        throw Exception('Erro desconhecido ao carregar dados');
+        throw Exception('Unknown error occurred while loading data');
       }
     } on SocketException {
-      throw Exception('Sem conexão com a internet');
+      throw Exception('No internet connection. Please try again later.');
     }
   }
 }

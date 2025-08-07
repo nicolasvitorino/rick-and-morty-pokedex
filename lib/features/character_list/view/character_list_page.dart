@@ -27,6 +27,18 @@ class CharacterListPage extends StatelessWidget {
               return const Center(child: CircularProgressIndicator());
             }
 
+            if (vm.hasError && vm.characters.isEmpty) {
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(vm.errorMessage ?? 'Erro desconhecido'),
+                    const SizedBox(height: 8),
+                  ],
+                ),
+              );
+            }
+
             return NotificationListener<ScrollNotification>(
               onNotification: (scroll) {
                 if (scroll.metrics.pixels == scroll.metrics.maxScrollExtent) {
@@ -35,22 +47,51 @@ class CharacterListPage extends StatelessWidget {
                 return true;
               },
               child: ListView.builder(
-                itemCount: vm.characters.length,
+                itemCount: vm.characters.length + (vm.isLoading ? 1 : 0),
                 itemBuilder: (_, i) {
-                  final character = vm.characters[i];
-                  return CharacterListTile(
-                    imageUrl: character.image,
-                    name: character.name,
-                    species: character.species,
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => CharacterDetailPage(id: character.id),
+                  if (i < vm.characters.length) {
+                    final character = vm.characters[i];
+                    return CharacterListTile(
+                      imageUrl: character.image,
+                      name: character.name,
+                      species: character.species,
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) =>
+                                CharacterDetailPage(id: character.id),
+                          ),
+                        );
+                      },
+                    );
+                  } else {
+                    if (vm.isLoading) {
+                      return const Center(
+                          child: Padding(
+                        padding: EdgeInsets.all(16.0),
+                        child: CircularProgressIndicator(),
+                      ));
+                    } else if (vm.hasError) {
+                      return Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(vm.errorMessage ?? 'Erro desconhecido'),
+                          ],
                         ),
                       );
-                    },
-                  );
+                    } else if (!vm.hasMore) {
+                      return const Center(
+                          child: Padding(
+                        padding: EdgeInsets.all(16.0),
+                        child: Text('Você chegou ao fim da lista.'),
+                      ));
+                    } else {
+                      return const SizedBox.shrink();
+                    }
+                  }
+                  ;
                 },
               ),
             );
