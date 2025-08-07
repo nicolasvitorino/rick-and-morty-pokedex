@@ -7,6 +7,7 @@ Uma aplicação Flutter que lista personagens da série **Rick and Morty** com s
 ## 📱 Funcionalidades
 
 - ✅ Listagem infinita e paginada de personagens.
+- ✅ Barra de pesquisa para buscar pelo nome dos personagens.
 - ✅ Tela de detalhes com nome, status, espécie e imagem.
 - ✅ Tratamento de erros com mensagens.
 - ✅ Navegação entre lista e detalhes.
@@ -20,6 +21,7 @@ Uma aplicação Flutter que lista personagens da série **Rick and Morty** com s
 ## 🧱 Tecnologias Utilizadas
 - Flutter
 - ChangeNotifier
+- GoRouter
 - HTTP
 - Rick and Morty API
 
@@ -54,7 +56,7 @@ build/app/outputs/flutter-apk/app-release.apk
 
 ---
 
- Este projeto foi desenvolvido como parte de um desafio técnico proposto pela FTeam
+ Este projeto foi desenvolvido como parte de um desafio técnico proposto pela FTeam.
 
 
 
